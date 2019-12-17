@@ -1,6 +1,10 @@
 module.exports = function(app) {
 
+    // Como usar middlewares com consign
+    // app.use(app.middlewares.authorization)
+
     const md5 = require('md5')
+    const crypto = require('crypto')
     const jwt = require('jsonwebtoken')
 
     const Auth = app.models.Auth
@@ -12,23 +16,36 @@ module.exports = function(app) {
         let pwd = req.body.pwd
 
         if(email != undefined && pwd != undefined) {
+            hash = crypto.createHash('sha256')
+                         .update(process.env.SECRET + pwd)
+                         .digest('hex')
+
             User.findOne({
-                where: { email, pwd }, raw: true
+                where: { email: email, pwd: hash }, raw: true
             }).then(user => {
                 if(user != undefined) {
                     let token = jwt.sign({user}, process.env.SECRET, {
                         expiresIn: 300 // expires in 5min
                     })
                     
-                    Auth.create({hash: md5(token), active: true}).then(() => {
-                        res.status(200).send({ auth: true, token: token })
+                    Auth.update({active: false},
+                        {where: { clientTable: 'users', clientId: user.id, active: true }}
+                    ).then(() => {
+                        Auth.create({
+                            hash: md5(token), 
+                            clientTable: 'users',
+                            clientId: user.id,
+                            active: true
+                        }).then(() => {
+                            res.status(200).send({ auth: true, token: token })
+                        })  
                     })
                 } else {
-                    res.status(500).send({ message: 'invalid credentials.' })
+                    res.status(401).send({ auth: false, message: 'invalid credentials.' })
                 }
             })
         }else {
-            res.status(500).send({ message: 'invalid credentials.' })
+            res.status(401).send({ auth: false, message: 'invalid credentials.' })
         }
     })
 

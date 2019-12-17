@@ -17,18 +17,18 @@ module.exports = function(app) {
                 if(auth != undefined) {
                     jwt.verify(token, process.env.SECRET, (err, decoded) => {
                         if(err) {
-                            res.status(401).send('access forbiden.')
+                            res.status(401).send({ message: 'access forbiden.' })
                         }else {
                             req.decoded = decoded
                             next()
                         }
                     })
                 }else {
-                    res.status(401).send('access forbiden.')
+                    res.status(401).send({ message: 'access forbiden.' })
                 }
             })
         }else {
-            res.status(401).send('access forbiden.')
+            res.status(401).send({ message: 'access forbiden.' })
         }
     }
 

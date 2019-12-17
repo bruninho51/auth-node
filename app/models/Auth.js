@@ -8,6 +8,14 @@ module.exports = function(app) {
             type: Sequelize.STRING,
             allowNull: false
         },
+        clientTable: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        clientId: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
         active: {
             type: Sequelize.BOOLEAN,
             allowNull: false

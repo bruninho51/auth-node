@@ -13,7 +13,7 @@ module.exports = function(app) {
             allowNull: false
         },
         pwd: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             allowNull: false
         }
     })
