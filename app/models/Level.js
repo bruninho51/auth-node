@@ -10,5 +10,9 @@ module.exports = function(app) {
         }
     })
 
+    Level.sync({ force: false }).then(() => {
+        console.log('levels table created.')
+    })
+
     return Level
 }

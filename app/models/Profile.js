@@ -26,5 +26,9 @@ module.exports = function(app) {
         }
     })
 
+    Profile.sync({ force: false }).then(() => {
+        console.log('profiles table created.')
+    })
+
     return Profile
 }
