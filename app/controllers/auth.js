@@ -1,8 +1,5 @@
 module.exports = function(app) {
 
-    // Como usar middlewares com consign
-    // app.use(app.middlewares.authorization)
-
     const md5 = require('md5')
     const crypto = require('crypto')
     const jwt = require('jsonwebtoken')

@@ -14,7 +14,7 @@ module.exports = function(app) {
         let errors = validationResult(req).array()
         if(errors.length > 0) {
             res.status(422).send({ errors: errors, message: 'Error validating as info' })
-        } else {
+        }else {
             let hash = crypto.createHash('sha256')
                              .update(process.env.SECRET + req.body.pwd)
                              .digest('hex')
