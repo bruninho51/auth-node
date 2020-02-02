@@ -1,7 +1,7 @@
 module.exports = function(app) {
     
-    const Sequelize = require('sequelize')
-    const connection = app.database.connection
+    const Sequelize = require('sequelize');
+    const connection = app.database.connection;
 
     const Profile = connection.define('profiles', {
         nickname: {
@@ -24,11 +24,11 @@ module.exports = function(app) {
             type: Sequelize.INTEGER,
             allowNull: false
         }
-    })
+    });
 
     Profile.sync({ force: false }).then(() => {
-        console.log('profiles table created.')
-    })
+        console.log('profiles table created.');
+    });
 
-    return Profile
-}
+    return Profile;
+};

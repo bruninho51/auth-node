@@ -1,7 +1,7 @@
 module.exports = function(app) {
     
-    const Sequelize = require('sequelize')
-    const connection = app.database.connection
+    const Sequelize = require('sequelize');
+    const connection = app.database.connection;
 
     const User = connection.define('users', {
         email: {
@@ -16,11 +16,11 @@ module.exports = function(app) {
             type: Sequelize.STRING,
             allowNull: false
         }
-    })
+    });
 
     User.sync({ force: false }).then(() => {
-        console.log('users table created.')
-    })
+        console.log('users table created.');
+    });
 
-    return User
-}
+    return User;
+};

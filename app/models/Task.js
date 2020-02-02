@@ -1,6 +1,6 @@
 module.exports = function(app) {
-    const Sequelize = require('sequelize')
-    const connection = app.database.connection
+    const Sequelize = require('sequelize');
+    const connection = app.database.connection;
     
     const Task = connection.define('tasks', {
         name: {
@@ -23,11 +23,11 @@ module.exports = function(app) {
             type: Sequelize.INTEGER,
             allowNull: false
         }
-    })
+    });
 
     Task.sync({ force: false }).then(() => {
-        console.log('tasks table created.')
-    })
+        console.log('tasks table created.');
+    });
 
-    return Task
-}
+    return Task;
+};

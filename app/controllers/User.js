@@ -1,34 +1,34 @@
 module.exports = function(app) {
-    const crypto = require('crypto')
+    const crypto = require('crypto');
 
-    const User = app.models.User
+    const User = app.models.User;
 
     app.post('/users', function(req, res) {
-        let email = req.body.email
-        let pwd = req.body.pwd
+        let email = req.body.email;
+        let pwd = req.body.pwd;
 
-        if(email != undefined && pwd != undefined) {
+        if(email && pwd) {
             User.findOne({
                 where: { email }, raw: true
             }).then(user => {
-                if(user != undefined) {
-                    res.status(500).send({ message: 'existing user' })
+                if(user) {
+                    res.status(500).send({ message: 'existing user' });
                 }else {
-                    hash = crypto.createHash('sha256')
+                    let hash = crypto.createHash('sha256')
                                  .update(process.env.SECRET + pwd)
-                                 .digest('hex')
+                                 .digest('hex');
 
-                    console.log(hash)
+                    console.log(hash);
                     User.create({ 
                         email: email, 
                         pwd: hash 
                     }).then((user) => {
-                        res.status(200).send({ user })
+                        res.status(200).send({ user });
                     })
                 }
-            })
+            });
         }else {
-            res.send(500).send({ message: 'mandatory data not reported' })
+            res.send(500).send({ message: 'mandatory data not reported' });
         }
     });
-}
+};

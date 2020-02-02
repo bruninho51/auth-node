@@ -1,7 +1,7 @@
 module.exports = function(app) {
     
-    const Sequelize = require('sequelize')
-    const connection = app.database.connection
+    const Sequelize = require('sequelize');
+    const connection = app.database.connection;
     
     const Auth = connection.define('auth', {
         hash: {
@@ -20,11 +20,11 @@ module.exports = function(app) {
             type: Sequelize.BOOLEAN,
             allowNull: false
         }
-    }, { freezeTableName: true })
+    }, { freezeTableName: true });
     
     Auth.sync({ force: false }).then(() => {
-        console.log('auth table created.')
-    })
+        console.log('auth table created.');
+    });
 
-    return Auth
-}
+    return Auth;
+};

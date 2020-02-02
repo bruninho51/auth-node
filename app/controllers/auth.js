@@ -1,29 +1,29 @@
 module.exports = function(app) {
 
-    const md5 = require('md5')
-    const crypto = require('crypto')
-    const jwt = require('jsonwebtoken')
+    const md5 = require('md5');
+    const crypto = require('crypto');
+    const jwt = require('jsonwebtoken');
 
-    const Auth = app.models.Auth
-    const User = app.models.User
+    const Auth = app.models.Auth;
+    const User = app.models.User;
 
     app.post('/auth', function(req, res) {
         //Gerar token e salvar hash no banco
-        let email = req.body.email
-        let pwd = req.body.pwd
+        let email = req.body.email;
+        let pwd = req.body.pwd;
 
-        if(email != undefined && pwd != undefined) {
-            hash = crypto.createHash('sha256')
+        if(email && pwd) {
+            let hash = crypto.createHash('sha256')
                          .update(process.env.SECRET + pwd)
-                         .digest('hex')
+                         .digest('hex');
 
             User.findOne({
                 where: { email: email, pwd: hash }, raw: true
             }).then(user => {
-                if(user != undefined) {
+                if(user) {
                     let token = jwt.sign({user}, process.env.SECRET, {
                         expiresIn: 300 // expires in 5min
-                    })
+                    });
                     
                     Auth.update({active: false},
                         {where: { clientTable: 'users', clientId: user.id, active: true }}
@@ -34,36 +34,36 @@ module.exports = function(app) {
                             clientId: user.id,
                             active: true
                         }).then(() => {
-                            res.status(200).send({ auth: true, token: token })
+                            res.status(200).send({ auth: true, token: token });
                         })  
                     })
                 } else {
-                    res.status(401).send({ auth: false, message: 'invalid credentials.' })
+                    res.status(401).send({ auth: false, message: 'invalid credentials.' });
                 }
             })
         }else {
-            res.status(401).send({ auth: false, message: 'invalid credentials.' })
+            res.status(401).send({ auth: false, message: 'invalid credentials.' });
         }
-    })
+    });
 
     app.get('/logout', function(req, res) {
-        let token = req.headers['authorization']
+        let token = req.headers['authorization'];
         if(token.startsWith('Bearer ')) {
-            token = token.slice(7, token.length)
+            token = token.slice(7, token.length);
         }
 
         if(token) {
-            const Auth = app.models.Auth
+            const Auth = app.models.Auth;
             Auth.update(
                 {active: false},
                 {where: { hash: md5(token) }}
             ).then(() => res.redirect('/'))
         }else {
-            res.redirect('/')
+            res.redirect('/');
         }
-    })
+    });
 
     app.get('/auth', function(req, res) {
         res.send(200, 'Teste');
-    })
-}
+    });
+};
