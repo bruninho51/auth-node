@@ -29,4 +29,11 @@ module.exports = function(app) {
             });
         }
     });
+
+    app.get('/task', [authorization], function(req, res) {
+        const Task = app.models.Task;
+        Task.findAll().then((data) => {
+            res.status(200).send(data);
+        });
+    });
 };
