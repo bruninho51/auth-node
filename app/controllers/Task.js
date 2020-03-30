@@ -34,6 +34,7 @@ module.exports = function(app) {
         const Task = app.models.Task;
         Task.findAll().then((data) => {
             res.status(200).send(data);
+            
         });
     });
 };
