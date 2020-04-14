@@ -7,6 +7,7 @@ module.exports = function(app) {
     app.post('/task', [authorization, taskValidator], function(req, res) {
         
         const Task = app.database.db.models.Task;
+        const TaskWeek = app.database.db.models.TaskWeek;
 
         let errors = validationResult(req).array();
         if(errors.length > 0) {
@@ -24,8 +25,15 @@ module.exports = function(app) {
                 score,
                 minimumAge,
                 users_id
-            }).then(() => {
-                res.status(200).send({ message: 'task created successfully.' });
+            })
+            .then((task) => {
+                TaskWeek.create({
+                    tasks_id: task.id,
+                    dom: false,seg: false,ter: false,qua: false,qui: false,sex: false,sab: false
+                })
+                .then(() => {
+                    res.status(200).send({ message: 'task created successfully.' });
+                });
             });
         }
     });

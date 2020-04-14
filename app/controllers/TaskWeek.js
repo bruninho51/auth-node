@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 
 module.exports = function(app) {
-    const authorization = app.moddlewares.authorization;
+    const authorization = app.middlewares.authorization;
 
     app.get('/task/week', [authorization], function(req, res) {
         const Task = app.database.db.models.Task;
