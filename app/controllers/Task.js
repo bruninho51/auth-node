@@ -6,7 +6,7 @@ module.exports = function(app) {
 
     app.post('/task', [authorization, taskValidator], function(req, res) {
         
-        const Task = app.models.Task;
+        const Task = app.database.db.models.Task;
 
         let errors = validationResult(req).array();
         if(errors.length > 0) {
@@ -31,7 +31,7 @@ module.exports = function(app) {
     });
 
     app.get('/task', [authorization], function(req, res) {
-        const Task = app.models.Task;
+        const Task = app.database.db.models.Task;
         Task.findAll().then((data) => {
             res.status(200).send(data);
             

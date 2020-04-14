@@ -5,12 +5,12 @@ module.exports = function(app) {
 
     return function (req, res, next) {
         let token = req.headers['authorization'];
-        if (token.startsWith('Bearer ')) {
+        if (token && token.startsWith('Bearer ')) {
             token = token.slice(7, token.length);
         }
 
         if (token) {
-            const Auth = app.models.Auth;
+            const Auth = app.database.db.models.Auth;
             Auth.findOne({
                 where: {hash: md5(token), active: true}
             }).then(auth => {

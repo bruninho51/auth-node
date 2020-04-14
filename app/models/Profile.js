@@ -1,27 +1,24 @@
-module.exports = function(app) {
-    
-    const Sequelize = require('sequelize');
-    const connection = app.database.connection;
+module.exports = (connection, DataType) => {
 
     const Profile = connection.define('profiles', {
         nickname: {
-            type: Sequelize.STRING,
+            type: DataType.STRING,
             allowNull: false
         },
         pwd: {
-            type: Sequelize.STRING,
+            type: DataType.STRING,
             allowNull: false
         },
         dateOfBird: {
-            type: Sequelize.DATE,
+            type: DataType.DATE,
             allowNull: false
         },
         score: {
-            type: Sequelize.INTEGER,
+            type: DataType.INTEGER,
             defaultValue: 0
         },
         users_id: {
-            type: Sequelize.INTEGER,
+            type: DataType.INTEGER,
             allowNull: false
         }
     });

@@ -1,4 +1,5 @@
 require('dotenv-safe').config();
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const consign = require('consign');
@@ -9,11 +10,11 @@ app.use(cors());
 app.use(express.static('app/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-consign({ cwd: 'app' })
-    .include('database')
+consign({ cwd: path.join(__dirname, 'app') })
+    .include('database/connection.js')
+    .then('database/db.js')
     .then('validators')
     .then('middlewares')
-    .then('models')
     .then('controllers')
     .into(app);
 

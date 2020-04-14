@@ -1,23 +1,20 @@
-module.exports = function(app) {
-    
-    const Sequelize = require('sequelize');
-    const connection = app.database.connection;
+module.exports = (connection, DataType) => {
     
     const Auth = connection.define('auth', {
         hash: {
-            type: Sequelize.STRING,
+            type: DataType.STRING,
             allowNull: false
         },
         clientTable: {
-            type: Sequelize.STRING,
+            type: DataType.STRING,
             allowNull: false
         },
         clientId: {
-            type: Sequelize.INTEGER,
+            type: DataType.INTEGER,
             allowNull: false
         },
         active: {
-            type: Sequelize.BOOLEAN,
+            type: DataType.BOOLEAN,
             allowNull: false
         }
     }, { freezeTableName: true });

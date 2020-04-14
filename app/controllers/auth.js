@@ -4,8 +4,9 @@ module.exports = function(app) {
     const crypto = require('crypto');
     const jwt = require('jsonwebtoken');
 
-    const Auth = app.models.Auth;
-    const User = app.models.User;
+    const Auth = app.database.db.models.Auth;
+    const User = app.database.db.models.User;
+    console.log(app.database.db);
 
     app.post('/auth', function(req, res) {
         //Gerar token e salvar hash no banco
@@ -22,7 +23,7 @@ module.exports = function(app) {
             }).then(user => {
                 if(user) {
                     let token = jwt.sign({user}, process.env.SECRET, {
-                        expiresIn: 300 // expires in 5min
+                        expiresIn: 3000 // expires in 5min
                     });
                     
                     Auth.update({active: false},
@@ -53,7 +54,7 @@ module.exports = function(app) {
         }
 
         if(token) {
-            const Auth = app.models.Auth;
+            const Auth = app.database.db.models.Auth;
             Auth.update(
                 {active: false},
                 {where: { hash: md5(token) }}

@@ -9,7 +9,7 @@ module.exports = function(app) {
         console.log('caiu na rota');
         const crypto = require('crypto');
 
-        const Profile = app.models.Profile;
+        const Profile = app.database.db.models.Profile;
 
         let errors = validationResult(req).array();
         if(errors.length > 0) {

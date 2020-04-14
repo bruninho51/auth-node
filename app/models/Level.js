@@ -1,11 +1,8 @@
-module.exports = function(app) {
-    
-    const Sequelize = require('sequelize');
-    const connection = app.database.connection;
+module.exports = (connection, DataType) => {    
 
     const Level = connection.define('levels', {
         level: {
-            type: Sequelize.STRING,
+            type: DataType.STRING,
             allowNull: false
         }
     });

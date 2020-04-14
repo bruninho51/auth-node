@@ -1,7 +1,7 @@
 module.exports = function(app) {
     const crypto = require('crypto');
 
-    const User = app.models.User;
+    const User = app.database.db.models.User;
 
     app.post('/users', function(req, res) {
         let email = req.body.email;

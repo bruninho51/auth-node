@@ -1,19 +1,16 @@
-module.exports = function(app) {
-    
-    const Sequelize = require('sequelize');
-    const connection = app.database.connection;
+module.exports = (connection, DataType) => {
 
     const User = connection.define('users', {
         email: {
-            type: Sequelize.STRING,
+            type: DataType.STRING,
             allowNull: false
         },
         pwd: {
-            type: Sequelize.STRING,
+            type: DataType.STRING,
             allowNull: false
         },
         pwd: {
-            type: Sequelize.STRING,
+            type: DataType.STRING,
             allowNull: false
         }
     });
