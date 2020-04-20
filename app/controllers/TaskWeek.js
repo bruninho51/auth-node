@@ -56,7 +56,7 @@ module.exports = function(app) {
         }
     });
 
-    app.get('/task/week', [authorization], function(req, res) {
+    app.get('/task/week', [authorization], async function(req, res) {
         const Task = app.database.db.models.Task;
         Task.findAll({
             include: 'tasksWeeks'

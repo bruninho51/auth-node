@@ -4,7 +4,7 @@ module.exports = function(app) {
     const taskValidator = app.validators.task;
     const authorization = app.middlewares.authorization;
 
-    app.post('/task', [authorization, taskValidator], function(req, res) {
+    app.post('/task', [authorization, taskValidator], async function(req, res) {
         
         const Task = app.database.db.models.Task;
         const TaskWeek = app.database.db.models.TaskWeek;
@@ -27,18 +27,21 @@ module.exports = function(app) {
                 users_id
             })
             .then((task) => {
-                TaskWeek.create({
+                return TaskWeek.create({
                     tasks_id: task.id,
                     dom: false,seg: false,ter: false,qua: false,qui: false,sex: false,sab: false
                 })
-                .then(() => {
-                    res.status(200).send({ message: 'task created successfully.' });
-                });
+            })
+            .then(() => {
+                res.status(200).send({ message: 'task created successfully.' });
+            })
+            .catch((err) => {
+                res.status(500).send({ err });
             });
         }
     });
 
-    app.get('/task', [authorization], function(req, res) {
+    app.get('/task', [authorization], async function(req, res) {
         const Task = app.database.db.models.Task;
         Task.findAll().then((data) => {
             res.status(200).send(data);
