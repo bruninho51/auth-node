@@ -23,7 +23,7 @@ module.exports = function(app) {
             }).then(user => {
                 if(user) {
                     let token = jwt.sign({user}, process.env.SECRET, {
-                        expiresIn: 3000 // expires in 5min
+                        expiresIn: process.env.TOKEN_TIME
                     });
                     
                     Auth.update({active: false},
